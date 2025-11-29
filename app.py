@@ -1,10 +1,7 @@
-from flask import Flask, request, render_template, send_file, redirect
+from flask import Flask, request, render_template, redirect
 import uuid
 import random
-from PIL import Image, ImageDraw, ImageFont
-import io
 import socket
-
 
 # ============================================
 # Obtener IP local para mostrarla al arrancar
@@ -35,44 +32,6 @@ app = Flask(__name__)
 participants = {}      # session_id → name
 assignments = {}       # name → receiver
 sort_done = False
-
-
-# ============================================
-# Generar tarjeta descargable
-# ============================================
-def generate_card(receiver: str):
-    try:
-        font_title = ImageFont.truetype("arial.ttf", 80)
-        font_text = ImageFont.truetype("arial.ttf", 70)
-    except:
-        font_title = ImageFont.load_default()
-        font_text = ImageFont.load_default()
-
-    img = Image.new("RGB", (1080, 1920), "#f8f1e8")
-    draw = ImageDraw.Draw(img)
-
-    title = "🎁 Amigo Invisible"
-    text = f"Te ha tocado regalarle a:\n\n{receiver}"
-
-    def get_text_size(txt, fnt):
-        bbox = draw.textbbox((0, 0), txt, font=fnt)
-        width = bbox[2] - bbox[0]
-        height = bbox[3] - bbox[1]
-        return width, height
-
-    w1, _ = get_text_size(title, font_title)
-    w2, _ = get_text_size(text, font_text)
-
-    W, H = img.size
-
-    draw.text(((W - w1) // 2, 300), title, fill="black", font=font_title)
-    draw.multiline_text(((W - w2) // 2, 600), text, fill="black",
-                        font=font_text, align="center")
-
-    buf = io.BytesIO()
-    img.save(buf, "PNG")
-    buf.seek(0)
-    return buf
 
 
 # ============================================
@@ -137,17 +96,6 @@ def sort():
         sort_done = True
 
     return redirect("/", code=303)
-
-
-@app.route("/card/<session_id>")
-def card(session_id):
-    user_name = participants.get(session_id)
-    if not user_name or user_name not in assignments:
-        return "No card yet", 404
-
-    buf = generate_card(assignments[user_name])
-    return send_file(buf, mimetype="image/png", as_attachment=True,
-                     download_name=f"amigo_invisible_{assignments[user_name]}.png")
 
 
 # ============================================
