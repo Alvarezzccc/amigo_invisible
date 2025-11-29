@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <title>Amigo Invisible</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+
+    <script>
+        // Auto-refresh inteligente (si no hay sorteo)
+        const sortDone = {{ 'true' if sort_done else 'false' }};
+
+        if (!sortDone) {
+            setTimeout(() => {
+                if (document.activeElement.tagName !== "INPUT") {
+                    window.location.reload();
+                }
+            }, 2000);
+        }
+    </script>
+</head>
+
+<body>
+
+    <h2>🎁 Amigo Invisible</h2>
+
+    <!-- Registro -->
+    <div class="box">
+        <h3>1. Introduce tu nombre</h3>
+
+        <form action="/register" method="post">
+            <input type="text" name="name" placeholder="Tu nombre" required>
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+
+    <!-- Participantes -->
+    <div class="box">
+        <h3>Participantes conectados</h3>
+        <ul>
+            {% for p in participants %}
+                <li>• {{ p }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Solo host ve esto -->
+    {% if is_host %}
+    <div class="box">
+        <h3>2. Iniciar sorteo</h3>
+        <form action="/sort" method="post">
+            <button type="submit" style="background:#2a9d8f;">🎁 Iniciar sorteo</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- Resultado -->
+    <div class="box result-box">
+        <h3>3. Tu resultado</h3>
+
+        {% if user_name %}
+
+            {% if sort_done %}
+
+                <!-- Cuenta atrás -->
+                <div id="countdown-box">
+                    Preparando tu resultado…
+                    <div id="count">5</div>
+                </div>
+
+                <!-- Resultado oculto inicialmente -->
+                <div id="result-box" style="display:none;">
+                    <p class="big-label">🎁 Te ha tocado regalar a:</p>
+                    <p class="big-name">{{ receiver }}</p>
+
+                    <a class="download-btn" href="/card/{{ session_id }}">
+                        📥 Descargar tarjeta
+                    </a>
+                </div>
+
+                <script>
+                    let seconds = 5;
+                    const countdownEl = document.getElementById("count");
+                    const countdownBox = document.getElementById("countdown-box");
+                    const resultBox = document.getElementById("result-box");
+
+                    function tick() {
+                        countdownEl.innerText = seconds;
+                        seconds--;
+
+                        if (seconds < 0) {
+                            countdownBox.style.display = "none";
+                            resultBox.style.display = "block";
+                            resultBox.style.opacity = 0;
+
+                            setTimeout(() => {
+                                resultBox.style.transition = "opacity .8s";
+                                resultBox.style.opacity = 1;
+                            }, 50);
+                        } else {
+                            setTimeout(tick, 1000);
+                        }
+                    }
+
+                    tick();
+                </script>
+
+            {% else %}
+                <p>Aún no se ha realizado el sorteo.</p>
+            {% endif %}
+
+        {% else %}
+            <p>Registra tu nombre para ver tu resultado.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

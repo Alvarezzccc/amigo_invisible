@@ -1,0 +1,51 @@
+# ----------------------------------------
+# Python
+# ----------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# Byte-compiled
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Pip installer artifacts
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Environment files
+*.env
+*.env.*
+
+# Build / Dist
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# Caches
+.cache/
+.pytest_cache/
+.mypy_cache/
+coverage.xml
+htmlcov/
+
+# Logs
+*.log
+
+# MacOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+*.spec
+output/

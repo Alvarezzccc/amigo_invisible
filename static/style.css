@@ -1,0 +1,140 @@
+/* RESET MÓVIL */
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Animación de pulso para el contador */
+#countdown-box {
+    text-align: center;
+    background: #fff4e6;
+    border-radius: 16px;
+    padding: 20px;
+    font-size: 40px;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+#count {
+    font-size: 60px;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+/* BODY GENERAL */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+    background: #faf7f2;
+    padding: 16px;
+    margin: 0;
+    color: #333;
+
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* CAJAS */
+.box {
+    background: white;
+    padding: 20px;
+    margin-bottom: 18px;
+    border-radius: 14px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+}
+
+/* INPUTS */
+input[type="text"] {
+    width: 100%;
+    padding: 18px;
+    font-size: 20px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* BOTONES */
+button {
+    background: #e63946;
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 18px;
+    width: 100%;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #d62839;
+}
+
+/* LISTAS */
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+li {
+    padding: 6px 0;
+    font-size: 18px;
+}
+
+/* RESULTADO */
+.result-box {
+    text-align: center;
+    background: #ffe8e0;
+    border-left: 6px solid #ff6b6b;
+}
+
+.big-label {
+    font-size: 22px;
+    margin-bottom: -5px;
+}
+
+.big-name {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* DESCARGA */
+.download-btn {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    background: #1d3557;
+    color: white;
+    padding: 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.download-btn:hover {
+    background: #0b253f;
+}
+
+/* MÓVILES PEQUEÑOS */
+@media (max-width: 360px) {
+    h2 { font-size: 24px; }
+    input[type=text] { font-size: 18px; }
+    button { font-size: 16px; padding: 14px; }
+    li { font-size: 16px; }
+}
